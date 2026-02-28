@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Goyal Traders | Grocery Store</title>
+
+<style>
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:#f4f6f9;
+}
+
+/* HEADER */
+header{
+    background:#2c5364;
+    color:white;
+    padding:20px;
+    text-align:center;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    position:relative;  /* ADD THIS */
+}
+
+header a{
+    color:orange;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+/* CATEGORY BAR */
+.category-bar{
+    display:flex;
+    overflow-x:auto;
+    padding:15px;
+    background:white;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+}
+.category-bar::-webkit-scrollbar{display:none;}
+
+.category{
+    flex:0 0 auto;
+    width:100px;
+    text-align:center;
+    cursor:pointer;
+    margin-right:15px;
+    transition:0.3s;
+}
+.category.active{
+    border-bottom:3px solid orange;
+}
+.category img{
+    width:60px;
+    height:60px;
+}
+.category:hover{
+    transform:translateY(-5px);
+}
+
+/* SEARCH */
+#searchBar{
+    width:90%;
+    max-width:400px;
+    display:block;
+    margin:20px auto;
+    padding:12px 18px;
+    border-radius:30px;
+    border:1px solid #ccc;
+    font-size:16px;
+    outline:none;
+}
+#searchBar:focus{
+    border-color:orange;
+}
+
+/* PRODUCTS */
+.product-container{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    padding:20px;
+}
+
+.product-card{
+    background:white;
+    width:190px;
+    margin:12px;
+    padding:18px;
+    border-radius:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+    text-align:center;
+    transition:0.3s;
+}
+.product-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 15px 30px rgba(0,0,0,0.12);
+}
+
+.product-name{
+    font-weight:bold;
+    margin-bottom:6px;
+}
+
+.product-price{
+    color:green;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.add-btn{
+    background:orange;
+    color:white;
+    border:none;
+    padding:8px 16px;
+    border-radius:25px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.3s;
+}
+.add-btn:hover{
+    background:darkorange;
+}
+
+/* FLOATING CART */
+.cart-icon{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    background:orange;
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:24px;
+    color:white;
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(0,0,0,0.2);
+    z-index:2000;
+}
+.cart-count{
+    position:absolute;
+    top:-5px;
+    right:-5px;
+    background:red;
+    color:white;
+    font-size:12px;
+    padding:4px 7px;
+    border-radius:50%;
+}
+
+/* CART PANEL */
+.cart-panel{
+    position:fixed;
+    right:-400px;
+    top:0;
+    width:350px;
+    height:100%;
+    background:white;
+    box-shadow:-5px 0 20px rgba(0,0,0,0.2);
+    transition:0.4s;
+    padding:20px;
+    overflow-y:auto;
+    z-index:3000;
+}
+.cart-panel.open{
+    right:0;
+}
+
+.cart-item{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:12px;
+    font-size:14px;
+}
+
+.qty-btn{
+    background:#ddd;
+    border:none;
+    padding:2px 6px;
+    cursor:pointer;
+}
+
+/* TOAST */
+.toast{
+    position:fixed;
+    bottom:100px;
+    right:20px;
+    background:#333;
+    color:white;
+    padding:12px 18px;
+    border-radius:8px;
+    opacity:0;
+    transition:0.4s;
+}
+.toast.show{
+    opacity:1;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .product-card{width:45%;}
+}
+@media(max-width:480px){
+    .product-card{width:90%;}
+}
+
+.qty-control{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:10px;
+}
+
+.qty-control button{
+background:orange;
+border:none;
+color:white;
+width:28px;
+height:28px;
+border-radius:6px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.qty-control span{
+min-width:20px;
+text-align:center;
+font-weight:bold;
+}
+
+body.cart-open .product-container{
+    margin-right:350px;
+    transition:0.4s;
+}
+
+.search-wrapper{
+    width:90%;
+    max-width:400px;
+    margin:20px auto;
+    position:relative;
+}
+
+.search-wrapper input{
+    width:100%;
+    padding:12px 45px 12px 18px;
+    border-radius:30px;
+    border:1px solid #ccc;
+    font-size:16px;
+    outline:none;
+}
+
+.search-wrapper input:focus{
+    border-color:orange;
+}
+
+.search-wrapper button{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    border:none;
+    background:orange;
+    color:white;
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:14px;
+}
+
+/* Clear button */
+#clearBtn{
+    right:45px;
+    background:#888;
+}
+
+/* Search button */
+#searchBtn{
+    right:5px;
+}
+
+body.cart-open .product-container{
+    margin-right:350px;
+    transition:0.4s;
+}
+
+#clearBtn{
+    right:45px;
+    background:#888;
+    display:none;   /* hidden by default */
+}
+
+.checkout-btn{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    background:green;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.checkout-btn:hover{
+    background:darkgreen;
+}
+
+.dark{
+    background:#1e1e1e !important;
+    color:white !important;
+}
+
+.dark .container,
+.dark .card{
+    background:#2c2c2c !important;
+    color:white;
+}
+
+.dark{
+    background:#1e1e1e !important;
+    color:white !important;
+}
+
+.dark header{
+    background:#111 !important;
+}
+
+.dark .product-card{
+    background:#2c2c2c !important;
+    color:white;
+}
+
+.dark .cart-panel{
+    background:#2c2c2c !important;
+    color:white;
+}
+
+.dark .category-bar{
+    background:#2c2c2c !important;
+}
+
+.dark input{
+    background:#444;
+    color:white;
+    border:1px solid #666;
+}
+
+/* ===== WHATSAPP FLOAT BUTTON ===== */
+.whatsapp-float{
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    background: #25D366;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 26px;
+    text-decoration: none;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    z-index: 5000;
+    transition: 0.3s;
+}
+
+.whatsapp-float:hover{
+    transform: scale(1.1);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+}
+
+
+
+</style>
+</head>
+<body>
+
+<header>
+    <h2>Goyal Traders | Grocery Store</h2>
+    <a href="index.html">⬅ Back</a>
+
+    <!-- ADD THIS BUTTON -->
+    <button onclick="toggleDarkMode()" 
+        style="position:absolute; right:20px; top:20px;
+        background:orange; border:none; padding:6px 10px;
+        border-radius:6px; cursor:pointer;">
+        🌙
+    </button>
+    
+</header>
+
+<div class="category-bar" id="categoryBar">
+    <div class="category active" data-category="All">All</div>
+    <div class="category" data-category="Ice Cream">Ice Cream</div>
+    <div class="category" data-category="Cold Drinks">Cold Drinks</div>
+    <div class="category" data-category="Rice">Rice</div>
+    <div class="category" data-category="Pulses">Pulses</div>
+    <div class="category" data-category="Masalas">Masalas</div>
+</div>
+
+<div class="search-wrapper">
+    <input type="text" id="searchBar" placeholder="Search product...">
+    <button id="clearBtn">✖</button>
+    <button id="searchBtn">🔍</button>
+</div>
+
+<div class="product-container" id="productContainer"></div>
+
+<!-- Floating Cart -->
+<div class="cart-icon" onclick="toggleCart()">
+    🛒
+    <div class="cart-count" id="cartCount">0</div>
+</div>
+
+<!-- Cart Panel -->
+<div class="cart-panel" id="cartPanel">
+    <h3>Your Cart</h3>
+    <div id="cartItems"></div>
+    <hr>
+    <h4>Total: ₹<span id="cartTotal">0</span></h4>
+    <button class="checkout-btn" onclick="goToPayment()">Proceed to Payment</button>
+</div>
+
+<div class="toast" id="toast">Item Added</div>
+
+<script>
+const products = [
+
+/* ---------------- ICE CREAM ---------------- */
+{name:"Amul Vanilla 1L",category:"Ice Cream",price:180},
+{name:"Amul Chocolate 1L",category:"Ice Cream",price:200},
+{name:"Kwality Walls Cornetto",category:"Ice Cream",price:40},
+{name:"Butterscotch Cup",category:"Ice Cream",price:35},
+{name:"Strawberry Family Pack",category:"Ice Cream",price:220},
+{name:"Mango Stick",category:"Ice Cream",price:25},
+{name:"Choco Bar",category:"Ice Cream",price:30},
+{name:"Black Currant Tub",category:"Ice Cream",price:210},
+{name:"Kulfi Classic",category:"Ice Cream",price:20},
+{name:"Rajbhog Ice Cream",category:"Ice Cream",price:190},
+
+/* ---------------- COLD DRINKS ---------------- */
+{name:"Coca Cola 500ml",category:"Cold Drinks",price:40},
+{name:"Pepsi 500ml",category:"Cold Drinks",price:35},
+{name:"Sprite 500ml",category:"Cold Drinks",price:35},
+{name:"Fanta 500ml",category:"Cold Drinks",price:35},
+{name:"Thums Up 1L",category:"Cold Drinks",price:65},
+{name:"Mountain Dew 750ml",category:"Cold Drinks",price:55},
+{name:"Limca 500ml",category:"Cold Drinks",price:35},
+{name:"Appy Fizz",category:"Cold Drinks",price:30},
+{name:"Maaza 600ml",category:"Cold Drinks",price:40},
+{name:"7UP 500ml",category:"Cold Drinks",price:35},
+
+/* ---------------- RICE ---------------- */
+{name:"Basmati Rice 1kg",category:"Rice",price:120},
+{name:"Basmati Rice 5kg",category:"Rice",price:550},
+{name:"Sona Masoori 1kg",category:"Rice",price:60},
+{name:"Kolam Rice 1kg",category:"Rice",price:65},
+{name:"Brown Rice 1kg",category:"Rice",price:90},
+{name:"Premium Biryani Rice",category:"Rice",price:150},
+{name:"Loose Rice 1kg",category:"Rice",price:50},
+{name:"Govind Bhog Rice",category:"Rice",price:130},
+{name:"Organic Rice 1kg",category:"Rice",price:140},
+{name:"Steam Rice 1kg",category:"Rice",price:70},
+
+/* ---------------- PULSES ---------------- */
+{name:"Toor Dal 1kg",category:"Pulses",price:110},
+{name:"Moong Dal 1kg",category:"Pulses",price:100},
+{name:"Chana Dal 1kg",category:"Pulses",price:90},
+{name:"Urad Dal 1kg",category:"Pulses",price:120},
+{name:"Masoor Dal 1kg",category:"Pulses",price:95},
+{name:"Rajma 1kg",category:"Pulses",price:130},
+{name:"Kabuli Chana 1kg",category:"Pulses",price:115},
+{name:"Black Chana 1kg",category:"Pulses",price:85},
+{name:"Green Moong 1kg",category:"Pulses",price:105},
+{name:"Mixed Dal 1kg",category:"Pulses",price:110},
+
+/* ---------------- MASALAS ---------------- */
+{name:"Turmeric Powder 100g",category:"Masalas",price:25},
+{name:"Red Chilli Powder 100g",category:"Masalas",price:30},
+{name:"Coriander Powder 100g",category:"Masalas",price:28},
+{name:"Garam Masala 50g",category:"Masalas",price:45},
+{name:"Kitchen King Masala",category:"Masalas",price:50},
+{name:"Cumin Seeds 100g",category:"Masalas",price:35},
+{name:"Mustard Seeds 100g",category:"Masalas",price:30},
+{name:"Black Pepper 50g",category:"Masalas",price:60},
+{name:"Cloves 50g",category:"Masalas",price:55},
+{name:"Cardamom 25g",category:"Masalas",price:75}
+
+];
+
+document.querySelectorAll(".category").forEach(cat=>{
+cat.addEventListener("click",function(){
+document.querySelectorAll(".category").forEach(c=>c.classList.remove("active"));
+this.classList.add("active");
+renderProducts(this.dataset.category);
+});
+});
+
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
+
+function renderProducts(filter="All"){
+const container=document.getElementById("productContainer");
+container.innerHTML="";
+let filteredProducts = filter==="All" ? products : products.filter(p=>p.category===filter);
+
+filteredProducts.forEach(p=>{
+let cartItem = cart.find(i=>i.name===p.name);
+let quantity = cartItem ? cartItem.qty : 0;
+
+container.innerHTML+=`
+<div class="product-card">
+<div class="product-name">${p.name}</div>
+<div class="product-price">₹${p.price}</div>
+
+<div id="controls-${p.name.replace(/\s/g,'')}" class="control-area">
+${
+quantity===0
+? `<button class="add-btn" onclick="addToCart('${p.name}',${p.price})">ADD</button>`
+: `
+<div class="qty-control">
+<button onclick="changeQtyByName('${p.name}',-1)">−</button>
+<span>${quantity}</span>
+<button onclick="changeQtyByName('${p.name}',1)">+</button>
+</div>
+`
+}
+</div>
+
+</div>`;
+});
+}
+
+function addToCart(name,price){
+let item=cart.find(i=>i.name===name);
+
+if(item){
+item.qty++;
+}else{
+cart.push({name,price,qty:1});
+}
+
+localStorage.setItem("cart",JSON.stringify(cart));
+updateCart();
+renderProducts(document.querySelector(".category.active").dataset.category);
+showToast();
+}
+
+function updateCart(){
+const cartItems=document.getElementById("cartItems");
+const cartCount=document.getElementById("cartCount");
+const cartTotal=document.getElementById("cartTotal");
+cartItems.innerHTML="";
+let total=0,count=0;
+cart.forEach((item,index)=>{
+total+=item.price*item.qty;
+count+=item.qty;
+cartItems.innerHTML+=`
+<div class="cart-item">
+${item.name} (₹${item.price}) x ${item.qty}
+<div>
+<button class="qty-btn" onclick="changeQty(${index},-1)">-</button>
+<button class="qty-btn" onclick="changeQty(${index},1)">+</button>
+</div>
+</div>`;
+});
+cartTotal.textContent=total;
+cartCount.textContent=count;
+}
+
+function changeQty(index,change){
+cart[index].qty+=change;
+if(cart[index].qty<=0){cart.splice(index,1);}
+localStorage.setItem("cart",JSON.stringify(cart));
+updateCart();
+}
+
+function changeQtyByName(name,change){
+let index = cart.findIndex(i=>i.name===name);
+
+if(index!==-1){
+cart[index].qty+=change;
+
+if(cart[index].qty<=0){
+cart.splice(index,1);
+}
+
+localStorage.setItem("cart",JSON.stringify(cart));
+updateCart();
+renderProducts(document.querySelector(".category.active").dataset.category);
+}
+}
+
+function toggleCart(){
+    const panel = document.getElementById("cartPanel");
+    panel.classList.toggle("open");
+
+    if(panel.classList.contains("open")){
+        document.body.classList.add("cart-open");
+    }else{
+        document.body.classList.remove("cart-open");
+    }
+}
+
+function showToast(){
+const toast=document.getElementById("toast");
+toast.classList.add("show");
+setTimeout(()=>toast.classList.remove("show"),1500);
+}
+
+
+
+
+
+const searchInput = document.getElementById("searchBar");
+clearBtn.addEventListener("click", function(){
+
+    searchInput.value="";
+    clearBtn.style.display="none";
+
+    // Show products of current category
+    renderProducts(document.querySelector(".category.active").dataset.category);
+
+    // Scroll to product section smoothly
+    document.getElementById("productContainer")
+        .scrollIntoView({behavior:"smooth"});
+});
+
+function goToPayment(){
+    if(cart.length===0){
+        alert("Your cart is empty!");
+        return;
+    }
+    window.location.href="payment.html";
+}
+
+function toggleDarkMode(){
+    document.body.classList.toggle("dark");
+
+    const btn = document.getElementById("darkBtn");
+
+    if(document.body.classList.contains("dark")){
+        btn.textContent = "☀️";
+    }else{
+        btn.textContent = "🌙";
+    }
+
+    localStorage.setItem("darkMode", document.body.classList.contains("dark"));
+}
+
+if(localStorage.getItem("darkMode")==="true"){
+    document.body.classList.add("dark");
+}
+
+// ===== LIVE SEARCH =====
+document.getElementById("searchBar").addEventListener("input", function(){
+
+    const query = this.value.toLowerCase();
+    const container = document.getElementById("productContainer");
+
+    container.innerHTML = "";
+
+    const filtered = products.filter(p => 
+        p.name.toLowerCase().includes(query)
+    );
+
+    if(filtered.length === 0){
+        container.innerHTML = "<p style='text-align:center;width:100%;'>No product found</p>";
+        return;
+    }
+
+    filtered.forEach(p=>{
+        container.innerHTML += `
+        <div class="product-card">
+            <div class="product-name">${p.name}</div>
+            <div class="product-price">₹${p.price}</div>
+            <button class="add-btn" onclick="addToCart('${p.name}',${p.price})">ADD</button>
+        </div>`;
+    });
+
+});
+
+
+
+document.addEventListener("click", function(e){
+    const cartPanel = document.getElementById("cartPanel");
+    const cartIcon = document.querySelector(".cart-icon");
+
+    if(cartPanel.classList.contains("open")){
+        if(!cartPanel.contains(e.target) && !cartIcon.contains(e.target)){
+            cartPanel.classList.remove("open");
+            document.body.classList.remove("cart-open");
+        }
+    }
+});
+
+function toggleDarkMode(){
+    document.body.classList.toggle("dark");
+    localStorage.setItem("darkMode", document.body.classList.contains("dark"));
+}
+
+if(localStorage.getItem("darkMode")==="true"){
+    document.body.classList.add("dark");
+}
+
+renderProducts();
+updateCart();
+
+</script>
+<a href="https://wa.me/919893194455" target="_blank" class="whatsapp-float">
+    💬
+</a>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Goyal Traders | General Store</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f6f9;
+    scroll-behavior: smooth;
+}
+
+/* ===== INTRO SECTION ===== */
+#intro {
+    height: 100vh;
+    background: linear-gradient(-45deg, #1e3c72, #2a5298, #ff512f, #dd2476);
+    background-size: 400% 400%;
+    animation: gradientMove 12s ease infinite;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+#intro h1 {
+    font-size: 48px;
+    opacity: 0;
+    animation: fadeDown 1.2s ease forwards;
+}
+
+#intro p {
+    font-size: 20px;
+    margin-top: 15px;
+    opacity: 0;
+    animation: fadeUp 1.2s ease forwards;
+    animation-delay: 0.5s;
+}
+
+#enterBtn {
+    padding: 14px 30px;
+    border: none;
+    background: orange;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 25px;
+    border-radius: 30px;
+    transition: 0.3s;
+    opacity: 0;
+    animation: zoomIn 1.2s ease forwards;
+    animation-delay: 1s;
+}
+
+#enterBtn:hover {
+    background: darkorange;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255,140,0,0.8);
+}
+
+@keyframes fadeDown {
+    from { opacity:0; transform:translateY(-50px);}
+    to { opacity:1; transform:translateY(0);}
+}
+
+@keyframes fadeUp {
+    from { opacity:0; transform:translateY(50px);}
+    to { opacity:1; transform:translateY(0);}
+}
+
+@keyframes zoomIn {
+    from { opacity:0; transform:scale(0.5);}
+    to { opacity:1; transform:scale(1);}
+}
+
+/* MAIN */
+#mainContent {
+    display: none;
+}
+
+/* HEADER */
+header {
+    background: #2c5364;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.contact-buttons {
+    margin-top: 15px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 22px;
+    margin: 6px;
+    background: orange;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: darkorange;
+    transform: translateY(-3px);
+}
+
+/* COOL SECTION */
+.cool-section {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.cool-section h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.cool-section p {
+    color: #555;
+    margin-bottom: 40px;
+}
+
+.features {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.feature-box {
+    background: white;
+    padding: 25px;
+    margin: 15px;
+    width: 260px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.feature-box:hover {
+    transform: translateY(-10px);
+}
+
+/* MAP */
+.map-section {
+    margin-top: 50px;
+    text-align: center;
+}
+
+iframe {
+    width: 90%;
+    height: 320px;
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0px 6px 15px rgba(0,0,0,0.2);
+}
+
+footer {
+    background: #203a43;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+/* RESPONSIVE */
+@media(max-width: 768px) {
+    .feature-box {
+        width: 85%;
+    }
+}
+
+/* ===== AESTHETIC ANIMATED BACKGROUND ===== */
+#intro {
+    background: linear-gradient(-45deg, #1e3c72, #2a5298, #ff512f, #dd2476);
+    background-size: 400% 400%;
+    animation: gradientMove 12s ease infinite;
+}
+
+/* Gradient animation */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+
+/* ===== PREMIUM TEXT ANIMATION ===== */
+#intro h1 {
+    font-size: 48px;
+    letter-spacing: 2px;
+    opacity: 0;
+    animation: fadeSlideDown 1.2s ease forwards;
+}
+
+#intro p {
+    font-size: 20px;
+    margin-top: 15px;
+    opacity: 0;
+    animation: fadeSlideUp 1.2s ease forwards;
+    animation-delay: 0.5s;
+}
+
+#enterBtn {
+    opacity: 0;
+    animation: zoomGlow 1.2s ease forwards;
+    animation-delay: 1s;
+}
+
+
+/* ===== KEYFRAMES ===== */
+@keyframes fadeSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes zoomGlow {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(255,165,0,0.7);
+    }
+}
+
+
+/* ===== BUTTON HOVER UPGRADE ===== */
+#enterBtn:hover {
+    background: #ff8c00;
+    box-shadow: 0 0 25px rgba(255,140,0,0.8);
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="intro">
+    <h1>Welcome to Goyal Traders</h1>
+    <p>Your One Stop Grocery & Household Store</p>
+    <button id="enterBtn">Enter Store</button>
+</div>
+
+<div id="mainContent">
+
+<header>
+    <h2>Goyal Traders</h2>
+    <p><strong>Owner:</strong> Shailesh Goyal</p>
+    <p><strong>Contact:</strong> 9893194455</p>
+    <p><strong>Address:</strong> Jyotipur Chowk, Gaurella, Pendra Road, Chhattisgarh - 495117</p>
+
+    <div class="contact-buttons">
+        <a href="tel:9893194455" class="btn">📞 Call Now</a>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=Jyotipur+Chowk+Gaurella+Pendra+Road+Chhattisgarh+495117" target="_blank" class="btn">🧭 Get Directions</a>
+        <a href="https://maps.app.goo.gl/zbpa6fetcmKJ5mFq9" target="_blank" class="btn">📍 Open in Google Maps</a>
+        <a href="shopping.html" class="btn">🛒 Shopping</a>
+    </div>
+</header>
+
+<section class="cool-section">
+    <h2>Welcome to Goyal Traders</h2>
+    <p>Your Trusted Grocery & Household Partner in Gaurella</p>
+
+    <div class="features">
+        <div class="feature-box">
+            <h3>🛒 All Daily Needs</h3>
+            <p>Groceries, household items & more available at best prices.</p>
+        </div>
+
+        <div class="feature-box">
+            <h3>🚚 Fast Service</h3>
+            <p>Quick billing and friendly customer service.</p>
+        </div>
+
+        <div class="feature-box">
+            <h3>⭐ Quality Products</h3>
+            <p>Trusted brands and fresh stock every day.</p>
+        </div>
+    </div>
+</section>
+
+<div class="map-section">
+    <h3>Find Us Here</h3>
+    <iframe src="https://www.google.com/maps?q=Jyotipur+Chowk+Gaurella+Pendra+Road+Chhattisgarh+495117&output=embed"></iframe>
+</div>
+
+<footer>
+    © 2026 Goyal Traders | All Rights Reserved
+</footer>
+
+</div>
+
+<script>
+document.getElementById("enterBtn").onclick = function() {
+    document.getElementById("intro").style.display = "none";
+    document.getElementById("mainContent").style.display = "block";
+};
+</script>
+
+</body>
+</html>
